@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-customer</a> &gt; <a href="index.source.html" class="el_package">com.bank.mscustomer.controller</a> &gt; <span class="el_source">CustomerController.java</span></div><h1>CustomerController.java</h1><pre class="source lang-java linenums">package com.bank.mscustomer.controller;
+
+import com.bank.mscustomer.dto.CustomerResponse;
+import com.bank.mscustomer.model.Customer;
+import com.bank.mscustomer.service.CustomerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Controlador REST para la gestion de clientes.
+ * Expone CRUD completo para clientes personales y empresariales.
+ */
+@RestController
+@RequestMapping(&quot;/customers&quot;)
+@RequiredArgsConstructor
+public class CustomerController {
+
+    private final CustomerService customerService;
+
+    /**
+     * Crea un nuevo cliente personal.
+     *
+     * @param request campos del cliente personal (documentNumber, fullName, profile)
+     * @return el cliente creado con codigo 201
+     */
+    @PostMapping(&quot;/personal&quot;)
+    public ResponseEntity&lt;CustomerResponse&gt; createPersonalCustomer(
+            @RequestBody Map&lt;String, String&gt; request) {
+<span class="fc" id="L41">        Customer customer = customerService.createPersonalCustomer(</span>
+<span class="fc" id="L42">                request.get(&quot;documentNumber&quot;),</span>
+<span class="fc" id="L43">                request.get(&quot;fullName&quot;),</span>
+<span class="fc" id="L44">                request.get(&quot;profile&quot;)</span>
+        );
+<span class="fc" id="L46">        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.toResponse(customer));</span>
+    }
+
+    /**
+     * Crea un nuevo cliente empresarial.
+     *
+     * @param request campos del cliente empresarial (documentNumber, fullName, profile, ruc)
+     * @return el cliente creado con codigo 201
+     */
+    @PostMapping(&quot;/business&quot;)
+    public ResponseEntity&lt;CustomerResponse&gt; createBusinessCustomer(
+            @RequestBody Map&lt;String, String&gt; request) {
+<span class="fc" id="L58">        Customer customer = customerService.createBusinessCustomer(</span>
+<span class="fc" id="L59">                request.get(&quot;documentNumber&quot;),</span>
+<span class="fc" id="L60">                request.get(&quot;fullName&quot;),</span>
+<span class="fc" id="L61">                request.get(&quot;profile&quot;),</span>
+<span class="fc" id="L62">                request.get(&quot;ruc&quot;)</span>
+        );
+<span class="fc" id="L64">        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.toResponse(customer));</span>
+    }
+
+    /**
+     * Obtiene un cliente por su ID.
+     *
+     * @param id identificador del cliente
+     * @return el cliente encontrado o 404 si no existe
+     */
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;CustomerResponse&gt; getCustomerById(@PathVariable String id) {
+<span class="fc" id="L75">        return customerService.findById(id)</span>
+<span class="fc" id="L76">                .map(customer -&gt; ResponseEntity.ok(customerService.toResponse(customer)))</span>
+<span class="fc" id="L77">                .orElse(ResponseEntity.notFound().build());</span>
+    }
+
+    /**
+     * Lista todos los clientes registrados.
+     *
+     * @return lista de clientes
+     */
+    @GetMapping
+    public ResponseEntity&lt;List&lt;CustomerResponse&gt;&gt; getAllCustomers() {
+<span class="fc" id="L87">        List&lt;CustomerResponse&gt; customers = customerService.toResponseList(customerService.findAll());</span>
+<span class="fc" id="L88">        return ResponseEntity.ok(customers);</span>
+    }
+
+    /**
+     * Actualiza los datos de un cliente existente.
+     *
+     * @param id identificador del cliente
+     * @param request campos a actualizar (fullName, profile)
+     * @return el cliente actualizado o 404 si no existe
+     */
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;CustomerResponse&gt; updateCustomer(
+            @PathVariable String id,
+            @RequestBody Map&lt;String, String&gt; request) {
+<span class="fc" id="L102">        return customerService.update(id, request.get(&quot;fullName&quot;), request.get(&quot;profile&quot;))</span>
+<span class="fc" id="L103">                .map(customer -&gt; ResponseEntity.ok(customerService.toResponse(customer)))</span>
+<span class="fc" id="L104">                .orElse(ResponseEntity.notFound().build());</span>
+    }
+
+    /**
+     * Elimina un cliente por su ID.
+     *
+     * @param id identificador del cliente
+     * @return 204 si se elimino, 404 si no existe
+     */
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteCustomer(@PathVariable String id) {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (customerService.delete(id)) {</span>
+<span class="fc" id="L116">            return ResponseEntity.noContent().build();</span>
+        }
+<span class="fc" id="L118">        return ResponseEntity.notFound().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: ms-customer
+  description: Microservicio de gestión de clientes del sistema bancario.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8081
+
+paths:
+  /customers/personal:
+    post:
+      summary: Crear cliente personal
+      operationId: createPersonalCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonalCustomerRequest'
+      responses:
+        '201':
+          description: Cliente creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Documento duplicado o datos invalidos
+
+  /customers/business:
+    post:
+      summary: Crear cliente empresarial
+      operationId: createBusinessCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusinessCustomerRequest'
+      responses:
+        '201':
+          description: Cliente creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Documento duplicado o datos invalidos
+
+  /customers:
+    get:
+      summary: Listar todos los clientes
+      operationId: getAllCustomers
+      responses:
+        '200':
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerResponse'
+
+  /customers/{id}:
+    get:
+      summary: Buscar cliente por ID
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Cliente no encontrado
+    put:
+      summary: Actualizar cliente
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpdateRequest'
+      responses:
+        '200':
+          description: Cliente actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Cliente no encontrado
+    delete:
+      summary: Eliminar cliente
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Cliente eliminado
+        '404':
+          description: Cliente no encontrado
+
+components:
+  schemas:
+    PersonalCustomerRequest:
+      type: object
+      required:
+        - documentNumber
+        - fullName
+        - profile
+      properties:
+        documentNumber:
+          type: string
+        fullName:
+          type: string
+        profile:
+          type: string
+          enum: [REGULAR, VIP]
+
+    BusinessCustomerRequest:
+      type: object
+      required:
+        - documentNumber
+        - fullName
+        - profile
+        - ruc
+      properties:
+        documentNumber:
+          type: string
+        fullName:
+          type: string
+        profile:
+          type: string
+          enum: [REGULAR, PYME]
+        ruc:
+          type: string
+
+    CustomerUpdateRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+        profile:
+          type: string
+          enum: [REGULAR, VIP, PYME]
+
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        documentNumber:
+          type: string
+        fullName:
+          type: string
+        customerType:
+          type: string
+          enum: [PERSONAL, BUSINESS]
+        profile:
+          type: string
+        ruc:
+          type: string
