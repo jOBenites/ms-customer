@@ -4,6 +4,7 @@ ms-customer,com.bank.mscustomer.model,PersonalCustomer,0,7,0,0,0,2,0,1,0,1
 ms-customer,com.bank.mscustomer.model,BusinessCustomer,0,10,0,0,0,3,0,1,0,1
 ms-customer,com.bank.mscustomer.model,Customer,0,15,0,0,0,6,0,1,0,1
 ms-customer,com.bank.mscustomer.controller,CustomerController,0,117,0,2,0,22,0,9,0,8
+ms-customer,com.bank.mscustomer.controller,GlobalExceptionHandler,10,0,0,0,2,0,2,0,2,0
 ms-customer,com.bank.mscustomer.dto,CustomerResponse,0,3,0,0,0,1,0,1,0,1
-ms-customer,com.bank.mscustomer.event,CustomerEventProducer,30,4,0,0,9,2,1,1,1,1
+ms-customer,com.bank.mscustomer.event,CustomerEventProducer,30,4,0,0,9,1,1,1,1,1
 ms-customer,com.bank.mscustomer,MsCustomerApplication,8,0,0,0,3,0,2,0,2,0

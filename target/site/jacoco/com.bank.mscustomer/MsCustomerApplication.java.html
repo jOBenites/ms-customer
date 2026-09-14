@@ -2,17 +2,19 @@
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 /**
  * Microservicio de gestion de clientes del sistema bancario.
  * Expone CRUD completo para clientes personales y empresariales,
  * y publica el evento bank.customer.created al registrar un nuevo cliente.
  */
+@EnableMongoAuditing
 @SpringBootApplication
-<span class="nc" id="L12">public class MsCustomerApplication {</span>
+<span class="nc" id="L14">public class MsCustomerApplication {</span>
 
     public static void main(String[] args) {
-<span class="nc" id="L15">        SpringApplication.run(MsCustomerApplication.class, args);</span>
-<span class="nc" id="L16">    }</span>
+<span class="nc" id="L17">        SpringApplication.run(MsCustomerApplication.class, args);</span>
+<span class="nc" id="L18">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
