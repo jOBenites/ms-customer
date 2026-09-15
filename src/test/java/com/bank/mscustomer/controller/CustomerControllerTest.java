@@ -1,7 +1,6 @@
 package com.bank.mscustomer.controller;
 
 import com.bank.mscustomer.dto.CustomerResponse;
-import com.bank.mscustomer.model.Customer;
 import com.bank.mscustomer.model.PersonalCustomer;
 import com.bank.mscustomer.model.BusinessCustomer;
 import com.bank.mscustomer.service.CustomerService;
@@ -22,9 +21,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
