@@ -1,9 +1,0 @@
-com\bank\mscustomer\MsCustomerApplication.class
-com\bank\mscustomer\dto\CustomerResponse.class
-com\bank\mscustomer\model\BusinessCustomer.class
-com\bank\mscustomer\service\CustomerService.class
-com\bank\mscustomer\model\PersonalCustomer.class
-com\bank\mscustomer\controller\CustomerController.class
-com\bank\mscustomer\event\CustomerEventProducer.class
-com\bank\mscustomer\repository\CustomerRepository.class
-com\bank\mscustomer\model\Customer.class
